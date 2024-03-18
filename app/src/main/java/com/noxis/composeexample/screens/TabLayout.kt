@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -61,8 +63,13 @@ fun TabLayout() {
             }
         }
         HorizontalPager(state = pagerState, modifier = Modifier.weight(1.0f)) { page ->
-            Text(text = "Page: $page",
-                modifier = Modifier.fillMaxWidth().height(100.dp))
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(10) {
+                    HourCardUI()
+                }
+            }
         }
     }
 }
