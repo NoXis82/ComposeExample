@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.noxis.composeexample.MainActivity
 import com.noxis.composeexample.R
 import com.noxis.composeexample.ui.theme.BlueLight
 
@@ -67,8 +70,45 @@ fun MainScreen() {
                     AsyncImage(
                         model = "https://cdn.weatherapi.com/weather/64x64/day/122.png",
                         contentDescription = "image_2",
-                        modifier = Modifier.size(35.dp)
+                        modifier = Modifier
+                            .size(35.dp)
+                            .padding(top = 2.dp, end = 6.dp)
                     )
+                }
+                Text(
+                    text = MainActivity.CITY,
+                    style = TextStyle(fontSize = 24.sp),
+                    color = Color.White
+                )
+                Text(text = "0.0 \u2103", style = TextStyle(fontSize = 65.sp), color = Color.White)
+                Text(text = "Overcast", style = TextStyle(fontSize = 16.sp), color = Color.White)
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    IconButton(onClick = {
+
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_searche),
+                            contentDescription = "button_1",
+                            tint = Color.White
+                        )
+                    }
+                    Text(
+                        text = "-3.0\u2103/0.0℃",
+                        style = TextStyle(fontSize = 16.sp),
+                        color = Color.White
+                    )
+                    IconButton(onClick = {
+
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_sync),
+                            contentDescription = "button_2",
+                            tint = Color.White
+                        )
+                    }
                 }
             }
         }
