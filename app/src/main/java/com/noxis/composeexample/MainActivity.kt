@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -38,11 +40,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
+            LazyColumn(
+                modifier = Modifier.fillMaxSize()
             ) {
-                CircleItem()
+//                items(count = 20) {
+//                    ListItem(name = "Name $it", prof = "Actor")
+//                }
+
+                itemsIndexed(listOf("Item 1","Item 2")) { index, item ->
+                    ListItem(name = item, prof = index.toString())
+                }
             }
         }
     }
@@ -61,7 +68,7 @@ private fun CircleItem() {
             .size(100.dp)
             .background(color.value, shape = CircleShape)
             .clickable {
-                when(++counter.value) {
+                when (++counter.value) {
                     StateColor.STATE_1.value -> color.value = StateColor.STATE_1.color
                     StateColor.STATE_2.value -> color.value = StateColor.STATE_2.color
                     StateColor.STATE_3.value -> color.value = StateColor.STATE_3.color
