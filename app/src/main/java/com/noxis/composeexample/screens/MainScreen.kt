@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -22,6 +23,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.noxis.composeexample.R
 import com.noxis.composeexample.ui.theme.BlueLight
 
@@ -61,6 +63,11 @@ fun MainScreen() {
                         text = "20.06.2024 13:00",
                         style = TextStyle(fontSize = 15.sp),
                         color = Color.White
+                    )
+                    AsyncImage(
+                        model = "https://cdn.weatherapi.com/weather/64x64/day/122.png",
+                        contentDescription = "image_2",
+                        modifier = Modifier.size(35.dp)
                     )
                 }
             }

@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
 
     companion object {
         const val API_KEY = "2d25b81b309c4ac5aee122007241803"
+        const val CITY = "Saint-Petersburg"
     }
 }
 

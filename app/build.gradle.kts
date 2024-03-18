@@ -61,7 +61,8 @@ dependencies {
     implementation(libs.androidx.material3)
     //Add volley
     implementation(libs.volley.cronet)
-
+    //AsyncImage
+    implementation(libs.coil.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
