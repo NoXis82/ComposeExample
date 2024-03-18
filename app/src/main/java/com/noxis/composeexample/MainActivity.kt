@@ -11,9 +11,11 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -42,16 +44,16 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val itemsRow = listOf(
-            MyModel(imageId = R.drawable.image_1, title = "Димон"),
-            MyModel(imageId = R.drawable.image_2, title = "Беня"),
-            MyModel(imageId = R.drawable.image_3, title = "Кузя"),
-            MyModel(imageId = R.drawable.image_4, title = "Иеся"),
-            MyModel(imageId = R.drawable.image_5, title = "Алик"),
-            MyModel(imageId = R.drawable.image_6, title = "Гера")
+            MyModel(imageId = R.drawable.image_1, title = "Димон", content = "Значимость этих проблем настолько очевидна, что дальнейшее развитие различных форм деятельности играет важную роль в формировании ключевых компонентов планируемого обновления!"),
+            MyModel(imageId = R.drawable.image_2, title = "Беня", content = "Test"),
+            MyModel(imageId = R.drawable.image_3, title = "Кузя", content = "Test"),
+            MyModel(imageId = R.drawable.image_4, title = "Иеся", content = "Test"),
+            MyModel(imageId = R.drawable.image_5, title = "Алик", content = "Test"),
+            MyModel(imageId = R.drawable.image_6, title = "Гера", content = "Test")
         )
         setContent {
-            LazyRow(
-                modifier = Modifier.fillMaxWidth().background(Gray100)
+            LazyColumn(
+                modifier = Modifier.fillMaxSize().background(Gray100).padding(4.dp)
             ) {
                 itemsIndexed(itemsRow) { _, item ->
                     MyRow(item = item)
