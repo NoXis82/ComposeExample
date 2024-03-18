@@ -11,11 +11,10 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,20 +34,27 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.noxis.composeexample.ui.MyModel
+import com.noxis.composeexample.ui.MyRow
+import com.noxis.composeexample.ui.theme.Gray100
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val itemsRow = listOf(
+            MyModel(imageId = R.drawable.image_1, title = "Димон"),
+            MyModel(imageId = R.drawable.image_2, title = "Беня"),
+            MyModel(imageId = R.drawable.image_3, title = "Кузя"),
+            MyModel(imageId = R.drawable.image_4, title = "Иеся"),
+            MyModel(imageId = R.drawable.image_5, title = "Алик"),
+            MyModel(imageId = R.drawable.image_6, title = "Гера")
+        )
         setContent {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
+            LazyRow(
+                modifier = Modifier.fillMaxWidth().background(Gray100)
             ) {
-//                items(count = 20) {
-//                    ListItem(name = "Name $it", prof = "Actor")
-//                }
-
-                itemsIndexed(listOf("Item 1","Item 2")) { index, item ->
-                    ListItem(name = item, prof = index.toString())
+                itemsIndexed(itemsRow) { _, item ->
+                    MyRow(item = item)
                 }
             }
         }
