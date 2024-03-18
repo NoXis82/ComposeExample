@@ -63,6 +63,9 @@ dependencies {
     implementation(libs.volley.cronet)
     //AsyncImage
     implementation(libs.coil.compose)
+    //Pager
+    implementation(libs.accompanist.pager)
+    implementation(libs.accompanist.pager.indicators)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
