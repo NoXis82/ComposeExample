@@ -30,7 +30,10 @@ class MainActivity : ComponentActivity() {
             val daysList = remember {
                 mutableStateOf(listOf<WeatherModel>())
             }
-            getDataWeather(CITY, daysList, this)
+            val currentInfo = remember {
+                mutableStateOf(WeatherModel("", "", "", "", "", "", "", ""))
+            }
+            getDataWeather(CITY, daysList, currentInfo, this)
             Image(
                 painter = painterResource(id = R.drawable.background),
                 contentDescription = "image",
@@ -40,7 +43,7 @@ class MainActivity : ComponentActivity() {
                 contentScale = ContentScale.Crop
             )
             Column {
-                MainCard()
+                MainCard(currentInfo)
                 TabLayout(daysList)
             }
         }
@@ -52,7 +55,12 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private fun getDataWeather(city: String, state: MutableState<List<WeatherModel>>, context: Context) {
+private fun getDataWeather(
+    city: String,
+    state: MutableState<List<WeatherModel>>,
+    currentInfo: MutableState<WeatherModel>,
+    context: Context
+) {
     val url = "https://api.weatherapi.com/v1/forecast.json" +
             "?key=${MainActivity.API_KEY}" +
             "&q=$city" +
@@ -64,7 +72,9 @@ private fun getDataWeather(city: String, state: MutableState<List<WeatherModel>>
         Request.Method.GET,
         url,
         { response ->
-            state.value = getWeatherByDays(response)
+            val dataList = getWeatherByDays(response)
+            state.value = dataList
+            currentInfo.value = dataList.first()
         },
         { error ->
             Log.e("MyTAG", "getDataWeather: ${error.message}")
@@ -76,6 +86,7 @@ private fun getDataWeather(city: String, state: MutableState<List<WeatherModel>>
 private fun getWeatherByDays(response: String): List<WeatherModel> {
     val dataWeatherList = arrayListOf<WeatherModel>()
     val obj = JSONObject(response)
+    val currentInfo = JSONObject(response).getJSONObject("current")
     val locale = obj.getJSONObject("location").getString("name")
     val days = obj.getJSONObject("forecast").getJSONArray("forecastday")
     for (i in 0 until days.length()) {
@@ -85,12 +96,16 @@ private fun getWeatherByDays(response: String): List<WeatherModel> {
         dataWeatherList.add(
             WeatherModel(
                 city = locale,
-                time = item.getString("date"),
-                currentTempC = "",
+                time = if (i == 0) currentInfo.getString("last_updated")
+                else item.getString("date"),
+                currentTempC = if (i == 0)
+                    "${currentInfo.getString("temp_c").toFloatOrNull()?.toInt()}℃"
+                else
+                    "",
                 condition = conditionInfo.getString("text"),
                 icon = conditionInfo.getString("icon"),
-                maxTempC = dayInfo.getString("maxtemp_c"),
-                minTempC = dayInfo.getString("mintemp_c"),
+                maxTempC = "${dayInfo.getString("maxtemp_c").toFloatOrNull()?.toInt()}℃",
+                minTempC = "${dayInfo.getString("mintemp_c").toFloatOrNull()?.toInt()}℃",
                 hours = item.getJSONArray("hour").toString()
             )
         )

@@ -32,30 +32,6 @@ fun TabLayout(daysList: MutableState<List<WeatherModel>>) {
     val pagerState = rememberPagerState(pageCount = { tabList.size })
     val tabIndex = pagerState.currentPage
     val coroutineScope = rememberCoroutineScope()
-
-//    val testModel = listOf(
-//        WeatherModel(
-//            "Saint Petersburg",
-//            "9:00",
-//            "1.0℃",
-//            "Partly cloudy",
-//            "//cdn.weatherapi.com/weather/64x64/day/116.png",
-//            "",
-//            "",
-//            ""
-//        ),
-//        WeatherModel(
-//            "Saint Petersburg",
-//            "2024-03-19",
-//            "",
-//            "Cloudy",
-//            "//cdn.weatherapi.com/weather/64x64/day/119.png",
-//            "2.8℃",
-//            "-0.4℃",
-//            ""
-//            )
-//    )
-
     Column(
         modifier = Modifier
             .padding(start = 6.dp, end = 6.dp)

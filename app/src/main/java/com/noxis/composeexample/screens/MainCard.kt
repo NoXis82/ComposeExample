@@ -13,6 +13,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,12 +25,12 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.noxis.composeexample.MainActivity
 import com.noxis.composeexample.R
+import com.noxis.composeexample.data.WeatherModel
 import com.noxis.composeexample.ui.theme.BlueLight
 
 
 @Composable
-@Preview(showBackground = true)
-fun MainCard() {
+fun MainCard(currentInfo: MutableState<WeatherModel>) {
     Column(
         modifier = Modifier.padding(6.dp)
     ) {
@@ -49,12 +50,12 @@ fun MainCard() {
                 ) {
                     Text(
                         modifier = Modifier.padding(top = 6.dp, start = 6.dp),
-                        text = "20.06.2024 13:00",
+                        text = currentInfo.value.time,
                         style = TextStyle(fontSize = 15.sp),
                         color = Color.White
                     )
                     AsyncImage(
-                        model = "https://cdn.weatherapi.com/weather/64x64/day/122.png",
+                        model = "https:${currentInfo.value.icon}",
                         contentDescription = "image_2",
                         modifier = Modifier
                             .size(35.dp)
@@ -66,8 +67,8 @@ fun MainCard() {
                     style = TextStyle(fontSize = 24.sp),
                     color = Color.White
                 )
-                Text(text = "0.0 \u2103", style = TextStyle(fontSize = 65.sp), color = Color.White)
-                Text(text = "Overcast", style = TextStyle(fontSize = 16.sp), color = Color.White)
+                Text(text = currentInfo.value.currentTempC, style = TextStyle(fontSize = 65.sp), color = Color.White)
+                Text(text = currentInfo.value.condition, style = TextStyle(fontSize = 16.sp), color = Color.White)
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
@@ -82,7 +83,7 @@ fun MainCard() {
                         )
                     }
                     Text(
-                        text = "-3.0\u2103/0.0℃",
+                        text = "${currentInfo.value.minTempC}/${currentInfo.value.maxTempC}",
                         style = TextStyle(fontSize = 16.sp),
                         color = Color.White
                     )
