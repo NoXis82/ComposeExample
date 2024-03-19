@@ -19,6 +19,7 @@ import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.noxis.composeexample.data.WeatherModel
+import com.noxis.composeexample.screens.DialogSearch
 import com.noxis.composeexample.screens.MainCard
 import com.noxis.composeexample.screens.TabLayout
 import org.json.JSONObject
@@ -29,6 +30,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             val daysList = remember {
                 mutableStateOf(listOf<WeatherModel>())
+            }
+            val dialogState = remember {
+                mutableStateOf(false)
             }
             val currentDayInfo = remember {
                 mutableStateOf(WeatherModel())
@@ -42,8 +46,22 @@ class MainActivity : ComponentActivity() {
                     .alpha(0.8f),
                 contentScale = ContentScale.Crop
             )
+            if (dialogState.value) {
+                DialogSearch(dialogState) {
+                    getDataWeather(it, daysList, currentDayInfo, this)
+                }
+            }
             Column {
-                MainCard(currentDayInfo)
+                MainCard(
+                    currentDayInfo,
+                    onClickSync = {
+                        getDataWeather(CITY, daysList, currentDayInfo, this@MainActivity)
+                    },
+                    onClickSearch = {
+                        dialogState.value = true
+                    }
+                )
+
                 TabLayout(daysList, currentDayInfo)
             }
         }

@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -30,7 +29,11 @@ import com.noxis.composeexample.ui.theme.BlueLight
 
 
 @Composable
-fun MainCard(currentInfo: MutableState<WeatherModel>) {
+fun MainCard(
+    currentInfo: MutableState<WeatherModel>,
+    onClickSync: () -> Unit,
+    onClickSearch: () -> Unit
+) {
     Column(
         modifier = Modifier.padding(6.dp)
     ) {
@@ -63,18 +66,26 @@ fun MainCard(currentInfo: MutableState<WeatherModel>) {
                     )
                 }
                 Text(
-                    text = MainActivity.CITY,
+                    text = currentInfo.value.city,
                     style = TextStyle(fontSize = 24.sp),
                     color = Color.White
                 )
-                Text(text = currentInfo.value.currentTempC, style = TextStyle(fontSize = 65.sp), color = Color.White)
-                Text(text = currentInfo.value.condition, style = TextStyle(fontSize = 16.sp), color = Color.White)
+                Text(
+                    text = currentInfo.value.currentTempC,
+                    style = TextStyle(fontSize = 65.sp),
+                    color = Color.White
+                )
+                Text(
+                    text = currentInfo.value.condition,
+                    style = TextStyle(fontSize = 16.sp),
+                    color = Color.White
+                )
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     IconButton(onClick = {
-
+                        onClickSearch.invoke()
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_searche),
@@ -88,7 +99,7 @@ fun MainCard(currentInfo: MutableState<WeatherModel>) {
                         color = Color.White
                     )
                     IconButton(onClick = {
-
+                        onClickSync.invoke()
                     }) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_sync),
