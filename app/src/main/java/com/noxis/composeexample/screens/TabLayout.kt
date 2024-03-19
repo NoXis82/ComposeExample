@@ -1,12 +1,8 @@
 package com.noxis.composeexample.screens
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -19,8 +15,8 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -31,34 +27,34 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TabLayout() {
+fun TabLayout(daysList: MutableState<List<WeatherModel>>) {
     val tabList = listOf("HOURS", "DAYS")
     val pagerState = rememberPagerState(pageCount = { tabList.size })
     val tabIndex = pagerState.currentPage
     val coroutineScope = rememberCoroutineScope()
 
-    val testModel = listOf(
-        WeatherModel(
-            "Saint Petersburg",
-            "9:00",
-            "1.0℃",
-            "Partly cloudy",
-            "//cdn.weatherapi.com/weather/64x64/day/116.png",
-            "",
-            "",
-            ""
-        ),
-        WeatherModel(
-            "Saint Petersburg",
-            "2024-03-19",
-            "",
-            "Cloudy",
-            "//cdn.weatherapi.com/weather/64x64/day/119.png",
-            "2.8℃",
-            "-0.4℃",
-            ""
-            )
-    )
+//    val testModel = listOf(
+//        WeatherModel(
+//            "Saint Petersburg",
+//            "9:00",
+//            "1.0℃",
+//            "Partly cloudy",
+//            "//cdn.weatherapi.com/weather/64x64/day/116.png",
+//            "",
+//            "",
+//            ""
+//        ),
+//        WeatherModel(
+//            "Saint Petersburg",
+//            "2024-03-19",
+//            "",
+//            "Cloudy",
+//            "//cdn.weatherapi.com/weather/64x64/day/119.png",
+//            "2.8℃",
+//            "-0.4℃",
+//            ""
+//            )
+//    )
 
     Column(
         modifier = Modifier
@@ -92,7 +88,7 @@ fun TabLayout() {
                 modifier = Modifier.fillMaxSize()
             ) {
 
-                itemsIndexed(testModel) { _, item ->
+                itemsIndexed(daysList.value) { _, item ->
                     HourCardUI(item)
                 }
             }
