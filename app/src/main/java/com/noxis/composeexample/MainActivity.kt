@@ -41,7 +41,8 @@ class MainActivity : ComponentActivity() {
 //private fun getResult(city: String, state: MutableState<String>, context: Context) {
 //    val url = "https://api.weatherapi.com/v1/current.json" +
 //            "?key=${MainActivity.API_KEY}&" +
-//            "q=$city" +
+//            "q=$city&" +
+//            "&days=$days" +
 //            "&aqi=no"
 //    val queue = Volley.newRequestQueue(context)
 //    val stringRequest = StringRequest(

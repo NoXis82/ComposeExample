@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.noxis.composeexample.data.WeatherModel
 import com.noxis.composeexample.ui.theme.BlueLight
 import kotlinx.coroutines.launch
 
@@ -34,6 +36,29 @@ fun TabLayout() {
     val pagerState = rememberPagerState(pageCount = { tabList.size })
     val tabIndex = pagerState.currentPage
     val coroutineScope = rememberCoroutineScope()
+
+    val testModel = listOf(
+        WeatherModel(
+            "Saint Petersburg",
+            "9:00",
+            "1.0℃",
+            "Partly cloudy",
+            "//cdn.weatherapi.com/weather/64x64/day/116.png",
+            "",
+            "",
+            ""
+        ),
+        WeatherModel(
+            "Saint Petersburg",
+            "2024-03-19",
+            "",
+            "Cloudy",
+            "//cdn.weatherapi.com/weather/64x64/day/119.png",
+            "2.8℃",
+            "-0.4℃",
+            ""
+            )
+    )
 
     Column(
         modifier = Modifier
@@ -66,8 +91,9 @@ fun TabLayout() {
             LazyColumn(
                 modifier = Modifier.fillMaxSize()
             ) {
-                items(10) {
-                    HourCardUI()
+
+                itemsIndexed(testModel) { _, item ->
+                    HourCardUI(item)
                 }
             }
         }

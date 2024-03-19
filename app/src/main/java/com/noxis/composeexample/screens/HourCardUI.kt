@@ -15,15 +15,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.noxis.composeexample.data.WeatherModel
 import com.noxis.composeexample.ui.theme.BlueLight
 
 @Composable
-@Preview(showBackground = true)
-fun HourCardUI() {
+fun HourCardUI(item: WeatherModel) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -40,12 +39,12 @@ fun HourCardUI() {
             Column(
                 modifier = Modifier.padding(start = 6.dp, top = 6.dp, bottom = 6.dp)
             ) {
-                Text(text = "12:00")
-                Text(text = "Sunny", style = TextStyle(color = Color.White))
+                Text(text = item.time)
+                Text(text = item.condition, style = TextStyle(color = Color.White))
             }
-            Text(text = "13.0℃", style = TextStyle(color = Color.White, fontSize = 24.sp))
+            Text(text = item.currentTempC.ifEmpty { "${item.minTempC}/${item.maxTempC}" }, style = TextStyle(color = Color.White, fontSize = 24.sp))
             AsyncImage(
-                model = "https://cdn.weatherapi.com/weather/64x64/day/122.png",
+                model = "https:${item.icon}",
                 contentDescription = "image_3",
                 modifier = Modifier
                     .size(35.dp)
