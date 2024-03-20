@@ -2,7 +2,7 @@ package com.noxis.composeexample.ui
 
 import com.noxis.composeexample.R
 
-sealed class BottomItem(val title: String, icon: Int, val route: String) {
+sealed class BottomItem(val title: String, val icon: Int, val route: String) {
     data object Screen1: BottomItem("Screen 1", R.drawable.icon, "screen_1")
     data object Screen2: BottomItem("Screen 2", R.drawable.icon, "screen_2")
     data object Screen3: BottomItem("Screen 3", R.drawable.icon, "screen_3")
