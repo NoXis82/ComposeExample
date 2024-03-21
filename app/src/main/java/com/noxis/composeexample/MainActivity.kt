@@ -2,6 +2,7 @@ package com.noxis.composeexample
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -36,6 +37,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -61,6 +63,7 @@ fun MainScreen(applicationContext: Context) {
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val selectedItem = remember { mutableStateOf(0) }
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -81,20 +84,30 @@ fun MainScreen(applicationContext: Context) {
                 Divider()
                 NavigationDrawerItem(
                     label = { Text(text = "Drawer Item 1") },
-                    selected = false,
+                    selected = selectedItem.value == 1,
                     shape = RoundedCornerShape(0.dp),
                     icon = {
                         Icon(imageVector = Icons.Filled.Call, contentDescription = null)
                     },
-                    onClick = { }
+                    onClick = {
+                        coroutineScope.launch {
+                            selectedItem.value = 1
+                            drawerState.close()
+                        }
+                    }
                 )
                 NavigationDrawerItem(
                     label = { Text(text = "Drawer Item 2") },
-                    selected = false,
+                    selected = selectedItem.value == 2,
                     icon = {
                         Icon(imageVector = Icons.Filled.AccountCircle, contentDescription = null)
                     },
-                    onClick = { }
+                    onClick = {
+                        coroutineScope.launch {
+                            selectedItem.value = 2
+                            drawerState.close()
+                        }
+                    }
                 )
             }
         }
@@ -116,7 +129,6 @@ fun MainScreen(applicationContext: Context) {
                     navigationIcon = {
                         IconButton(onClick = {
                             coroutineScope.launch {
-
                                 drawerState.apply {
                                     if (isClosed) open() else close()
                                 }
