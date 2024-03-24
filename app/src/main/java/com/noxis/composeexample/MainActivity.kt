@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -23,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
@@ -53,7 +50,7 @@ class MainActivity : ComponentActivity() {
             ComposeExampleTheme {
                 val viewModel = viewModel<MainViewModel>()
                 val coroutineScope = rememberCoroutineScope()
-                val products = viewModel.products.collectAsState(initial = emptyList())
+                val products = viewModel.stateProduct.collectAsState()
                 println("Products: ${products.value}")
                 Column(
                     modifier = Modifier.fillMaxSize(),
@@ -64,6 +61,7 @@ class MainActivity : ComponentActivity() {
                             .fillMaxWidth()
                             .fillMaxHeight(0.9f)
                     ) {
+
                         items(products.value) { product ->
                             Text(text = product.name, textAlign = TextAlign.Center)
                             Spacer(modifier = Modifier.height(10.dp))
