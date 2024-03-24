@@ -21,4 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "ComposeExample"
 include(":app")
- 
+include(":lib_product")

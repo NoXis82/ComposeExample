@@ -56,6 +56,7 @@ kapt {
 }
 
 dependencies {
+    implementation(project(":lib_product"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
