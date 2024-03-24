@@ -4,21 +4,38 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import com.noxis.composeexample.ui.theme.ComposeExampleTheme
+import com.noxis.composeexample.viewmodel.MainViewModel
+import com.noxis.lib_product.model.Product
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
 
     private val barcodeLauncher = registerForActivityResult(ScanContract()) { result ->
         result.contents?.let {
@@ -28,15 +45,53 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    private var counter: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ComposeExampleTheme {
-                Box(contentAlignment = Alignment.Center) {
-                    Button(onClick = {
-                        scan()
-                    }) {
-                        Text(text = "Scan")
+                val viewModel = viewModel<MainViewModel>()
+                val coroutineScope = rememberCoroutineScope()
+                val products = viewModel.products.collectAsState(initial = emptyList())
+                println("Products: ${products.value}")
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .fillMaxHeight(0.9f)
+                    ) {
+                        items(products.value) { product ->
+                            Text(text = product.name, textAlign = TextAlign.Center)
+                            Spacer(modifier = Modifier.height(10.dp))
+                        }
+                    }
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        Button(onClick = {
+                            coroutineScope.launch {
+                                counter++
+                                viewModel.addProduct(
+                                    Product(
+                                        id = 0,
+                                        name = "Product $counter",
+                                        "Test $counter",
+                                        null,
+                                        null
+                                    )
+                                )
+                            }
+                        }) {
+                            Text(text = "Add product")
+                        }
+
+                        Button(onClick = {
+                            viewModel.clearAll()
+                        }) {
+                            Text(text = "Clear all")
+                        }
                     }
                 }
 
