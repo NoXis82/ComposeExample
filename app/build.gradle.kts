@@ -67,6 +67,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.zxing.android.embedded)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
     //Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
